@@ -1,12 +1,12 @@
 import React from 'react';
 import EmailForm from './EmailForm';
-import Calander from './Calander';
+import Calendar from './Calendar';
 
 function App() {    
     return (
       <div class="container">
         <EmailForm/>
-        <Calander/>
+        <Calendar/>
       </div>
     );
 }

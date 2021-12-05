@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 const headerStyle = {
     color: "black", 
-    backgroundColor: "powderblue",
+    backgroundColor: "IndianRed",
     textAlign: "center",
     fontSize: "200%",
     fontFamily: "verdana",
-    border: "5px solid powderblue"
+    border: "5px solid IndianRed"
   }
 
 class EmailForm extends Component {
@@ -26,7 +27,9 @@ class EmailForm extends Component {
   
     handleSubmit(event) {
       // call python functions here
-      alert('Extracting Conference:\n' + this.state.value);
+      axios.post('http://localhost:5000/', {'text': this.state.value})
+      .then((response) => {alert(response.data);});
+
       event.preventDefault();
       // reset state to empty after submit
       this.setState({value: 'Provide text to extract conference'});

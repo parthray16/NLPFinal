@@ -48,7 +48,7 @@ const CellToolTip = props => (
   />
 );
 
-function Calander() {
+function Calendar() {
   const [tableColumnExtensions] = useState([
     { columnName: 'name', width: '300' , wordWrapEnabled: true},
     { columnName: 'acronym', width: 'auto' , wordWrapEnabled: true },
@@ -59,7 +59,7 @@ function Calander() {
   ]);
 
     return (
-      <div class="calander">
+      <div class="calendar">
         <h1 style={titleStyle}>
           NLP Conferences Calendar
           </h1>
@@ -75,4 +75,4 @@ function Calander() {
     );
 }
 
-export default Calander;
+export default Calendar;
