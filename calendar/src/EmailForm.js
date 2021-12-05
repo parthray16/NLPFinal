@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Extraction from './Extraction';
 
 const headerStyle = {
     color: "black", 
@@ -14,7 +15,8 @@ class EmailForm extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        value: 'Provide text to extract conference'
+        value: 'Provide text to extract conference',
+        data: []
       };
   
       this.handleChange = this.handleChange.bind(this);
@@ -22,17 +24,18 @@ class EmailForm extends Component {
     }
   
     handleChange(event) {
-      this.setState({value: event.target.value});
+      this.setState({value: event.target.value, data: this.state.data});
     }
   
     handleSubmit(event) {
       // call python functions here
       axios.post('http://localhost:5000/', {'text': this.state.value})
-      .then((response) => {alert(response.data);});
+      .then((response) => {this.setState({value: 'Provide text to extract conference',
+                                          data: this.state.data.concat(response.data)});});
 
       event.preventDefault();
       // reset state to empty after submit
-      this.setState({value: 'Provide text to extract conference'});
+      
     }
   
     render() {
@@ -52,7 +55,9 @@ class EmailForm extends Component {
             <br />
             <input type="submit" value="Extract Conference" />
             </form>
-        </div>
+            <br />
+            <Extraction data={this.state.data}/>
+          </div>
       );
     }
   }

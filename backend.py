@@ -19,5 +19,5 @@ def extract_conference():
         emailText = request.get_json()['text']
        # conference = python_fun(emailText)
        # resp = jsonify(conference), 201
-        resp = 'Conference Extracted', 200
+        resp = jsonify({ 'name': '7th International Conference on Signal Processing and Integrated Networks', 'acronym': '', 'submission': '11/11/2019', 'notification': '12/9/2019', 'conference': '2/27/2020 - 3/1/2020', 'location': 'Delhi/NCR, India' }), 200
         return resp
