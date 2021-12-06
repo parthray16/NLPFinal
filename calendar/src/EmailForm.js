@@ -40,6 +40,8 @@ class EmailForm extends Component {
   
     render() {
       return (
+        <body>
+        <h1 style={headerStyle}>Conference Email Extractor</h1>
         <div class='form'
             style={{
             display: "flex",
@@ -48,16 +50,15 @@ class EmailForm extends Component {
             }}
         >
             <form onSubmit={this.handleSubmit}>
-            <h1 style={headerStyle}>Conference Email Extractor</h1>
             <label>
                 <textarea align='center' rows='25' cols='75' value={this.state.value} onChange={this.handleChange} />
             </label>
             <br />
             <input type="submit" value="Extract Conference" />
             </form>
-            <br />
+            </div>
             <Extraction data={this.state.data}/>
-          </div>
+          </body>
       );
     }
   }

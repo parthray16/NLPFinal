@@ -2,6 +2,7 @@ from flask import Flask, json
 from flask import request
 from flask import jsonify
 from flask_cors import CORS
+from extractions import get_dates, get_location, get_name
 
 app = Flask(__name__)
 
@@ -17,13 +18,13 @@ def fill_calendar():
 def extract_conference():
     if request.method == 'POST':
         emailText = request.get_json()['text']
-        extraction = { 'name': '', 'acronym': '', 'submission': '', 'notification': '', 'conference': '', 'location': '' }
-        #extraction['name'] = pythonfunction(emailText)
-        #extraction['acronym'] = pythonfunction(emailText)
-        #extraction['submission'] = pythonfunction(emailText)
-        #extraction['notification'] = pythonfunction(emailText)
-        #extraction['conference'] = pythonfunction(emailText)
-        #extraction['location'] = pythonfunction(emailText)
-        #resp = jsonify(extraction), 200
-        resp = jsonify({ 'name': '7th International Conference on Signal Processing and Integrated Networks', 'acronym': '', 'submission': '11/11/2019', 'notification': '12/9/2019', 'conference': '2/27/2020 - 3/1/2020', 'location': 'Delhi/NCR, India' }), 200
+        extraction = { 'name': '', 'submission': '', 'notification': '', 'conference': '', 'location': '' }
+        extraction['name'] = get_name(emailText)
+        print(f"{extraction['name']}")
+        dates = get_dates(emailText.lower())
+        extraction['submission'] = dates[1] if dates[1] else '' 
+        extraction['notification'] = dates[2] if dates[2] else ''
+        extraction['conference'] = dates[0] if dates[0] else ''
+        extraction['location'] = get_location(emailText)
+        resp = jsonify(extraction), 200
         return resp

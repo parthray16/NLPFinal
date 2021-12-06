@@ -6,7 +6,6 @@ import { Grid, Table, TableHeaderRow } from '@devexpress/dx-react-grid-material-
 
 const columns = [
   { name: 'name', title: 'Name' },
-  { name: 'acronym', title: 'Acronym' },
   { name: 'submission', title: 'Submission' },
   { name: 'notification', title: 'Notification' },
   { name: 'conference', title: 'Conference' },
@@ -46,7 +45,6 @@ const CellToolTip = props => (
 function Extraction(props) {
   const [tableColumnExtensions] = useState([
     { columnName: 'name', width: '300' , wordWrapEnabled: true},
-    { columnName: 'acronym', width: 'auto' , wordWrapEnabled: true },
     { columnName: 'submission', width: 'auto' , wordWrapEnabled: true},
     { columnName: 'notification', width: 'auto' , wordWrapEnabled: true},
     { columnName: 'conference', width: 'auto' , wordWrapEnabled: true},
