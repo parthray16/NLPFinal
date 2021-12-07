@@ -34,8 +34,6 @@ class EmailForm extends Component {
                                           data: this.state.data.concat(response.data)});});
 
       event.preventDefault();
-      // reset state to empty after submit
-      
     }
   
     render() {

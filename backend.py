@@ -1,4 +1,4 @@
-from flask import Flask, json
+from flask import Flask
 from flask import request
 from flask import jsonify
 from flask_cors import CORS
@@ -20,7 +20,6 @@ def extract_conference():
         emailText = request.get_json()['text']
         extraction = { 'name': '', 'submission': '', 'notification': '', 'conference': '', 'location': '' }
         extraction['name'] = get_name(emailText)
-        print(f"{extraction['name']}")
         dates = get_dates(emailText.lower())
         extraction['submission'] = dates[1] if dates[1] else '' 
         extraction['notification'] = dates[2] if dates[2] else ''
