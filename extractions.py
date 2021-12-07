@@ -1,24 +1,15 @@
 import pandas as pd
 import dateparser
-import nltk
-from nltk.util import ngrams
 from nltk.corpus import stopwords
-from tqdm.notebook import tqdm
 import re
 import datetime
 import pickle
 from geotext import GeoText
 import spacy
-import email
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.stem import WordNetLemmatizer
-nltk.download('stopwords')
 from nltk.corpus import stopwords
-import catboost
 
-
-nltk.download('punkt')
-nltk.download('wordnet')
 
 nlp = spacy.load("en_core_web_sm")
 
@@ -33,7 +24,6 @@ def get_dates(text):
     char_nums = []
     text_bubbles = []
     dates = []
-    # print(soup.text)
     text += 'dum junk'
     match = re.finditer("\d+/\d+/\d",text)
     for m in match:
@@ -48,13 +38,10 @@ def get_dates(text):
     match = re.finditer("jan|feb|mar|apr|may|jun|jul|aug|sep|nov|dec",text)
     for m in match:
         date_str = text[m.start()-10:m.end()+15]
-        # print(date_str)
         date_str = re.sub('-\s*\d+|,|\s+',' ',date_str)
         toks = re.split('\s+',date_str)
-        # print(toks)
         datet=None
         for i in range(len(toks)-3):
-            # print('reading:',' '.join(toks[i:i+3]))
             datet = dateparser.parse(' '.join(toks[i:i+3]),settings={'STRICT_PARSING': True})
             part_date = None
             if datet:
@@ -62,7 +49,6 @@ def get_dates(text):
             else:
                 datet = dateparser.parse(' '.join(toks[i:i+2]))
         if datet:
-            # print('found:',datet)
             char_nums.append(m.start())
             start=max(m.start()-40,0)
             end = min(m.end()+15,len(text))
@@ -107,23 +93,36 @@ def get_dates(text):
             notif_date]
 
 
-def get_location(doc):
-  places = GeoText(doc)
-  countries = []
-  cities = places.cities
-  for token in nlp(doc):
-    if token.text.isupper() and token.text in countryList:
-      countries.append(token.text)
-  if len(countries) == 0:
-    countries = places.countries
-  if len(cities) == 0 and len(countries) > 0:
-      return countries[0]
-  elif len(countries) == 0 and len(cities) > 0:
-    return cities[0]
-  elif len(countries) == 0 and len(cities) == 0:
-    return ""
-  else:
-    return cities[0] +", " + countries[0]
+def get_location(un_doc):
+    doc = nlp(un_doc)
+    gpe = []
+    countries = []
+    places = GeoText(un_doc)
+    cities = places.cities
+    for token in doc.ents:
+        if token.label_ == 'GPE':
+            gpe.append(token.text)
+    for token in doc:
+        if token.text.isupper() and token.text in countryList and token.text not in gpe:
+            gpe.append(token.text)
+    for x in gpe:
+        if x in countryList:
+            countries.append(x)
+    inter = []
+    for x in gpe:
+        if x in cities:
+            inter.append(x)
+    gpe = inter
+    if len(countries) == 0:
+        countries = places.countries
+    if len(countries) == 0 and len(gpe) == 0:
+        return ""
+    elif len(countries) > 0 and len(gpe) == 0:
+        return countries[0]
+    elif len(countries) == 0 and len(gpe) > 0:
+        return gpe[0]
+    else:
+        return gpe[0] +", " + countries[0]
 
 
 def get_consecutive_words(sent):

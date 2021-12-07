@@ -1,2 +1,14 @@
 flask
 flask-cors
+nltk
+spacy
+sklearn
+catboost
+dateparser
+re
+datetime
+pickle
+geotext
+numpy
+pandas
+xgboost==0.90

@@ -9,10 +9,6 @@ app = Flask(__name__)
 #CORS stands for Cross Origin Requests.
 CORS(app) #Here we'll allow requests coming from any domain. Not recommended for production environment.
 
-@app.before_first_request
-def fill_calendar():
-   # fillup calendar
-    pass
 
 @app.route('/', methods=['POST'])
 def extract_conference():
