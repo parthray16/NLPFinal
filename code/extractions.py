@@ -56,8 +56,8 @@ def get_dates(text):
             dates.append(datet.replace(tzinfo=None))
     df_dates = pd.DataFrame()
     df_dates['date']=dates
-    xgb_classifier = pickle.load(open('xgb_classifier2.pkl', "rb"))
-    tfidfvec = pickle.load(open('tfidfvec2.pkl', "rb"))
+    xgb_classifier = pickle.load(open('pkl_models/xgb_classifier2.pkl', "rb"))
+    tfidfvec = pickle.load(open('pkl_models/tfidfvec2.pkl', "rb"))
 
     if len(dates)==0:
         return [None,None,None]
@@ -191,8 +191,8 @@ def select_conference(phrases):
 
 def get_name(email_text):
     lemmatizer = WordNetLemmatizer()
-    clf = pickle.load(open('catboost_sent_clf.pkl', "rb"))
-    vectorizer = pickle.load(open('tfidf_sent_vecs.pkl', "rb"))
+    clf = pickle.load(open('pkl_models/catboost_sent_clf.pkl', "rb"))
+    vectorizer = pickle.load(open('pkl_models/tfidf_sent_vecs.pkl', "rb"))
     columns = vectorizer.get_feature_names_out()
     sents = sent_tokenize(email_text)
     lemmatized_sents = []
