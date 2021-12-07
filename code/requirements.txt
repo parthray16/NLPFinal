@@ -5,9 +5,7 @@ spacy
 sklearn
 catboost
 dateparser
-re
 datetime
-pickle
 geotext
 numpy
 pandas
