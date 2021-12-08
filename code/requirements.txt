@@ -4,9 +4,11 @@ nltk
 spacy
 sklearn
 catboost
+python-Levenshtein
 dateparser
 datetime
 geotext
+email
 numpy
 pandas
 xgboost==0.90
